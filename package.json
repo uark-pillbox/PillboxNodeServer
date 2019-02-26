@@ -1,0 +1,30 @@
+{
+  "name": "pillboxnodeserver",
+  "version": "1.0.0",
+  "description": "testing api get requests",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "ejs": "^2.6.1",
+    "express": "4.16.4",
+    "express-validator": "^5.3.1",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "nodemon": "^1.18.10",
+    "xml": "^1.0.1",
+    "xml2js": "^0.4.19"
+  },
+  "author": "CK",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uark-pillbox/PillboxNodeServer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uark-pillbox/PillboxNodeServer/issues"
+  },
+  "homepage": "https://github.com/uark-pillbox/PillboxNodeServer#readme"
+}
