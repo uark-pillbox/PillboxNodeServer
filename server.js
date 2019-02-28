@@ -18,23 +18,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Test Route for OpenFDA Api will output to Console
 app.get('/TestOpenFDA', function(req, res){
-    //res.json(JSON.parse(test.TestOpenFDA())); NOT WORKING
 
-    //TODO Connect content to webpage
-
-    testRoutes.TestOpenFDA();
-    res.sendStatus(200);
+    //Asynchronously prossesses the response from OpenFDA
+    //POSTMAN GET will return JSON response
+    testRoutes.TestOpenFDA().then(resolve => {
+        res.send(resolve);
+    });
 });
 
 //Test Route for RxNorm Api will output to Console
 app.get('/TestRxNorm', function(req, res){
-    //res.set('Content-Type', 'text/xml'); NOT WORKING
-    //res.send(xml(test.TestRxNorm()));
 
-    //TODO Connect content to webpage
-
-    testRoutes.TestRxNorm();
-    res.sendStatus(200);
+    //Asynchronously prossesses the response from OpenFDA
+    //POSTMAN GET will return JSON response
+    testRoutes.TestRxNorm().then(resolve => {
+        res.send(resolve);
+    });
 });
 
 //Server Runing and Listening on Command argument port
