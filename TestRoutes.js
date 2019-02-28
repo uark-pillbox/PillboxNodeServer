@@ -26,16 +26,6 @@ function TestOpenFDA(){
 };
 
 function TestRxNorm(){
-    /*https.get(options.testRxNorm_options, function(res){
-        res.setEncoding('utf8');
-        res.on('data', function(chunk){
-            console.log("Response: "+chunk);
-            return chunk;
-        });
-    }).on('error', (e) => {
-        console.error('Got error: '+e.message);
-    });*/
-
     return new Promise(resolve => { 
         let obj = '';
         callback = function(res){
