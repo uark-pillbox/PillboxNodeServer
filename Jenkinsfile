@@ -5,7 +5,17 @@ pipeline {
         stage('Build') {
             //Compile docker containers.
             steps {
-                echo 'Building..'
+                checkout(
+                    [
+                        $class: 'GitSCM', 
+                        branches: [[name: '*/master']], 
+                        doGenerateSubmoduleConfigurations: false, 
+                        extensions: [], 
+                        submoduleCfg: [], 
+                        userRemoteConfigs: [[credentialsId: 'babe9e97-05ba-48de-b97f-6f0b56aab423', 
+                                              url: 'https://github.com/uark-pillbox/PillboxNodeServer']]
+                    ]
+                )
             }
         }
         stage('Test') {
