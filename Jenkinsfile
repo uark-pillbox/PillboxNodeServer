@@ -6,7 +6,6 @@ pipeline {
             //Compile docker containers.
             steps {
                 echo 'Entering the build stage'
-                
                 echo 'Checking out git repo'
                 def scmVars = checkout(
                     [
@@ -19,9 +18,7 @@ pipeline {
                                               url: 'https://github.com/uark-pillbox/PillboxNodeServer']]
                     ]
                 )
-                
                 echo scmVars
-                
                 echo 'Attempting to build docker container'
                 sh buildDocker: '', returnStatus: true, script: 'docker build -t pillboxserver .'
             }
