@@ -5,7 +5,10 @@ pipeline {
         stage('Build') {
             //Compile docker containers.
             steps {
-                checkout(
+                echo 'Entering the build stage'
+                
+                echo 'Checking out git repo'
+                def scmVars = checkout(
                     [
                         $class: 'GitSCM', 
                         branches: [[name: '*/master']], 
@@ -16,6 +19,10 @@ pipeline {
                                               url: 'https://github.com/uark-pillbox/PillboxNodeServer']]
                     ]
                 )
+                
+                echo scmVars
+                
+                echo 'Attempting to build docker container'
                 sh buildDocker: '', returnStatus: true, script: 'docker build -t pillboxserver .'
             }
         }
