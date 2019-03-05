@@ -16,6 +16,7 @@ pipeline {
                                               url: 'https://github.com/uark-pillbox/PillboxNodeServer']]
                     ]
                 )
+                sh buildDocker: '', returnStatus: true, script: 'docker build -t pillboxserver .'
             }
         }
         stage('Test') {
