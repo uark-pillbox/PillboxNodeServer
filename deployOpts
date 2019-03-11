@@ -1,4 +1,4 @@
-MachineCount 3
+MachineCount=3
 
-MachineHostname nodeServer
+MachineHostname=nodeServer
 
