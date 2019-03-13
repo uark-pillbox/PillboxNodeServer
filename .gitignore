@@ -1,0 +1,11 @@
+# Directories #
+###############
+node_modules/
+.vscode/
+
+
+#  Files  #
+###########
+*.http
+
+

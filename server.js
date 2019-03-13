@@ -1,23 +1,37 @@
+require('rootpath')();
 var express = require('express');
+var expressValidator = require('express-validator');
 var bodyParser = require('body-parser');
 var path = require('path');
-var testRoutes = require('./TestRoutes.js');
+var testRoutes = require('./routes/TestRoutes.js');
 var xml = require("xml");
+var mongoose = require('mongoose');
+var cors = require('cors');
+var jwt = require('./_helpers/jwt');
+var errorHandler = require('_helpers/error-handling')
 
-var app = express();
+var server = express();
+server.use(expressValidator());
 
 //Must be set for sever to listen
 var port = process.argv[2];
 
 //Body Parser Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({extended:false}));
 
-//Set static Path
-app.use(express.static(path.join(__dirname, 'public')));
+server.use(cors());
+
+//JWT Authentication for the api
+server.use(jwt());
+
+//Users Routes
+server.use('/users', require('./users/user.controller'));
+
+//Register route
 
 //Test Route for OpenFDA Api will output to Console
-app.get('/TestOpenFDA', function(req, res){
+server.get('/TestOpenFDA', function(req, res){
 
     //Asynchronously prossesses the response from OpenFDA
     //POSTMAN GET will return JSON response
@@ -27,7 +41,7 @@ app.get('/TestOpenFDA', function(req, res){
 });
 
 //Test Route for RxNorm Api will output to Console
-app.get('/TestRxNorm', function(req, res){
+server.get('/TestRxNorm', function(req, res){
 
     //Asynchronously prossesses the response from OpenFDA
     //POSTMAN GET will return JSON response
@@ -37,6 +51,6 @@ app.get('/TestRxNorm', function(req, res){
 });
 
 //Server Runing and Listening on Command argument port
-app.listen(port, function(){
+server.listen(port, function(){
     console.log("Server running on port "+port+"...");
 });

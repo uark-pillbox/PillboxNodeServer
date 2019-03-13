@@ -1,6 +1,6 @@
 var https = require("https");
 var http = require("http");
-var options = require("./options.js");
+var options = require("../options.js");
 var xml2js = require("xml2js");
 var convert = require("xml-js");
 var util = require("util");
