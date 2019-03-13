@@ -14,6 +14,6 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-EXPOSE 8080
+EXPOSE 9001
 
-CMD [ "node", "server.js", "8080" ]
+CMD [ "node", "server.js", "9001" ]
