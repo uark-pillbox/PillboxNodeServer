@@ -15,8 +15,18 @@ var testRxNorm_options = {
     method: 'GET'
 };
 
+function getRXID_options() {
+    return opts = {
+    host: "rxnav.nlm.nih.gov",
+    port: 443,
+    methodL: 'GET',
+    path: ''
+    }
+}
+
 //Exposing options objects
 module.exports = {
     testOpenFDA_options,
-    testRxNorm_options
+    testRxNorm_options,
+    getRXID_options
 }

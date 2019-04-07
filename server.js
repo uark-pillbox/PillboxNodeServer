@@ -1,4 +1,4 @@
-require('rootpath')();
+var path = require('rootpath')();
 var express = require('express');
 var expressValidator = require('express-validator');
 var bodyParser = require('body-parser');
@@ -27,6 +27,9 @@ server.use(jwt());
 
 //Users Routes
 server.use('/users', require('./users/user.controller'));
+
+//Drug Routes
+server.use('/drugs', require('./drugs/drug.controller'));
 
 //Register route
 
