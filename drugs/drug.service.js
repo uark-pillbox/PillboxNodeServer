@@ -7,7 +7,8 @@ const drugModel = require('../models/drug.model');
 const User = db.User;
 
 module.exports = {
-    addDrug
+    addDrug,
+    removeDrug
 }
 
 async function addDrug(id,drugObject) {
@@ -25,10 +26,62 @@ async function addDrug(id,drugObject) {
     drugPayload = JSON.parse(drugPayload);
 
     completeDrug.rxnormID = drugPayload.rxnormdata.idGroup.rxnormId._text; //set the drug rxid.
-
     completeDrug.schedule = drugObject.schedule; //get schedule from the app side.
 
-    currentUser.drugs.push(completeDrug); //update user object
+    //Check if drugName is already saved with the User
+    if(!drugNameArrayCheck(currentUser.drugs, completeDrug.name)) {
+        currentUser.drugs.push(completeDrug); //update user object
+    } else {
+        throw "Drug with name "+ completeDrug.name + " is already stored."
+    }
+
     await currentUser.save(); //save back to the db
     return currentUser;
+}
+
+
+async function removeDrug(id, drugNameToRemove) {
+
+    var drugFound = false;
+
+    currentUser = await User.findById(id).select('-hash');
+
+    userDrugs = currentUser.drugs;
+
+    userDrugs.forEach((value, index, array) => {
+        if(value.name == drugNameToRemove){
+            array.splice(index, 1);
+            drugFound = true;
+        }
+    });
+
+    currentUser.drugs = userDrugs;
+
+    if(drugFound){
+        await currentUser.save();
+    } else {
+        throw "Drug "+ drugNameToRemove + " not found listed.";
+    }
+
+    return currentUser;
+}
+
+//function for iterating array of drug objects
+//returns TRUE if and object with drugName is found in the array
+//returns FALSE if array length is less than 1 or array is undefined
+//returns FALSE if a drugObject with the given drugName is not found
+function drugNameArrayCheck(drugArray, drugName){
+    var check = true;
+
+    if(drugArray.length < 1 || drugArray == undefined)
+        check = false;
+    
+    if(check) { 
+        check = false;
+        drugArray.map((value, index, array) => {
+            if(value.name == drugName)
+                check = true;
+        });
+    }
+    return check;
 }
