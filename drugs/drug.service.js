@@ -8,7 +8,8 @@ const User = db.User;
 
 module.exports = {
     addDrug,
-    removeDrug
+    removeDrug,
+    updateDrugSchedule
 }
 
 async function addDrug(id,drugObject) {
@@ -20,8 +21,6 @@ async function addDrug(id,drugObject) {
     currentUser = await User.findById(id).select('-hash'); //get the current user sending the payload from their unique hash
 
     drugPayload = await drugRoute.getRXID(drugObject.name); //Use api route, send the name of the drug and get the RXnorm ID.
-    
-    console.log(drugPayload);
 
     drugPayload = JSON.parse(drugPayload);
 
@@ -63,6 +62,43 @@ async function removeDrug(id, drugNameToRemove) {
         throw "Drug "+ drugNameToRemove + " not found listed.";
     }
 
+    return currentUser;
+}
+
+async function updateDrugSchedule(id, drugScheduleObject) {
+
+    drugName = drugScheduleObject.name;
+    newSchedule = drugScheduleObject.schedule;
+
+    currentUser = await User.findById(id).select('-hash');
+
+    userDrugs = currentUser.drugs;
+
+    var drugToUpdate;
+    if(drugNameArrayCheck(userDrugs, drugName)){
+        userDrugs.forEach((value, index, array) => {
+            if(value.name == drugName)
+                drugToUpdate = value;
+        });
+    } else {
+        throw "No Drug named " + drugName + " to update.";
+    }
+
+    while(drugToUpdate.schedule.length > 0)
+        drugToUpdate.schedule.pop();
+
+    newSchedule.forEach((value, index, array) => {
+        drugToUpdate.schedule.push(value);
+    });
+
+    userDrugs.forEach((value, index, array) => {
+        if(value.name == drugName)
+            userDrugs.splice(index, 1, drugToUpdate);
+    });
+
+    currentUser.drugs = userDrugs;
+
+    await currentUser.save();
     return currentUser;
 }
 
