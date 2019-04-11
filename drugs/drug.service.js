@@ -4,12 +4,14 @@ const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
 const drugRoute = require('../routes/drugRoutes');
 const drugModel = require('../models/drug.model');
+const interactionModel = require('../models/Interaction.model');
 const User = db.User;
 
 module.exports = {
     addDrug,
     removeDrug,
-    updateDrugSchedule
+    updateDrugSchedule,
+    drugInteractions
 }
 
 async function addDrug(id,drugObject) {
@@ -100,6 +102,40 @@ async function updateDrugSchedule(id, drugScheduleObject) {
 
     await currentUser.save();
     return currentUser;
+}
+
+async function drugInteractions(id){
+
+    currentUser = await User.findById(id).select('-hash');
+
+    userDrugs = currentUser.drugs;
+
+    if(userDrugs.length < 1 || userDrugs == undefined)
+        throw "No drugs listed to check interactions.";
+
+    var drugList = ''
+    userDrugs.map((value, index, array) => {
+        drugList  += value.rxnormID + '+';
+    });
+
+    interactionPayload = await drugRoute.getInteractionObject(drugList);
+
+    console.log(interactionPayload.fullInteractionTypeGroup[0].fullInteractionType);
+
+    if(interactionPayload.fullInteractionTypeGroup == undefined || interactionPayload.fullInteractionTypeGroup.length < 1)
+        throw "No interactions were found from the listed drugs.";
+
+    var interactions = [];
+    interactionPayload.fullInteractionTypeGroup[0].fullInteractionType.map((value, index, array) => {
+        interaction = new interactionModel.Interaction();
+        interaction.DrugName1 = value.minConcept[0].name;
+        interaction.DrugName2 = value.minConcept[1].name;
+
+        interaction.Description = value.interactionPair[0].description;
+        interactions.push(interaction);
+    });
+
+    return interactions;
 }
 
 //function for iterating array of drug objects

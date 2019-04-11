@@ -24,9 +24,19 @@ function getRXID_options() {
     }
 }
 
+function getInteractions_options() {
+    return opts = {
+        host: "rxnav.nlm.nih.gov",
+        port: 443,
+        methodL: 'GET',
+        path: '/REST/interaction/list.json?rxcuis=' //Will need to add list of drugs to this path when processing
+        }
+}
+
 //Exposing options objects
 module.exports = {
     testOpenFDA_options,
     testRxNorm_options,
-    getRXID_options
+    getRXID_options,
+    getInteractions_options
 }

@@ -27,6 +27,29 @@ function getRXID(drugName){
     });
 }
 
+function getInteractionObject(drugList){
+    return new Promise(resolve => { 
+        let obj = '';
+        callback = function(res){
+            var str = '';
+            
+            res.on('data', (chunk) => {
+                str += chunk;
+            });
+
+            res.on('end', () => {
+                obj = JSON.parse(str);
+                resolve(obj);
+            });
+        }
+        interactionOpts = new options.getInteractions_options();
+        interactionOpts.path += drugList;
+        let request = https.get(interactionOpts, callback);
+        request.end();
+    });
+}
+
 module.exports = {
-    getRXID
+    getRXID,
+    getInteractionObject
 };
