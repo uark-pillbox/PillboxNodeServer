@@ -110,8 +110,8 @@ async function drugInteractions(id){
 
     userDrugs = currentUser.drugs;
 
-    if(userDrugs.length < 1 || userDrugs == undefined)
-        throw "No drugs listed to check interactions.";
+    if(userDrugs.length <= 1 || userDrugs == undefined)
+        throw "Not enough drugs listed to check interactions.";
 
     var drugList = ''
     userDrugs.map((value, index, array) => {
@@ -145,7 +145,7 @@ async function drugInteractions(id){
 function drugNameArrayCheck(drugArray, drugName){
     var check = true;
 
-    if(drugArray.length < 1 || drugArray == undefined)
+    if(drugArray.length <= 1 || drugArray == undefined)
         check = false;
     
     if(check) { 
