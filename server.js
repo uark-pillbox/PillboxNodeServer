@@ -9,13 +9,35 @@ var mongoose = require('mongoose');
 var cors = require('cors');
 var jwt = require('./_helpers/jwt');
 var errorHandler = require('_helpers/error-handling')
+var log4js = require('log4js');
+var fs = require('fs')
+
+if (fs.existsSync('/log/')) {
+    var trueLog = console.log;
+    console.log = function(msg) {
+        fs.appendFile("/log/pillbox-"+ process.argv[3] +".log", msg, function(err) {
+            if(err) {
+                return trueLog(err);
+            }
+        });
+        trueLog(msg); //uncomment if you want logs
+    }
+} else 
+{
+    console.log("/log is not found, printing to console instead")
+}
+
+
 
 var server = express();
 server.use(expressValidator());
 
 //Must be set for sever to listen
 var port = process.argv[2];
-
+var branch = "";
+if(process.argv[4] != null){
+    var branch = '/' + process.argv[4];
+}
 //Body Parser Middleware
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended:false}));
@@ -26,10 +48,10 @@ server.use(cors());
 server.use(jwt());
 
 //Users Routes
-server.use('/users', require('./users/user.controller'));
+server.use('/api'+ branch + '/users', require('./users/user.controller'));
 
 //Drug Routes
-server.use('/drugs', require('./drugs/drug.controller'));
+server.use('/api'+ branch + '/drugs', require('./drugs/drug.controller'));
 
 //Register route
 
