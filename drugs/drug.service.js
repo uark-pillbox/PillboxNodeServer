@@ -18,7 +18,7 @@ async function addDrug(id,drugObject) {
 
     completeDrug = new drugModel.Drug(); //create a new drug from constructor
     
-    completeDrug.name = drugObject.name; //get name from what was sent for the app
+    completeDrug.name = drugObject.name.toLowerCase(); //get name from what was sent for the app
 
     currentUser = await User.findById(id).select('-hash'); //get the current user sending the payload from their unique hash
 
@@ -145,7 +145,7 @@ async function drugInteractions(id){
 function drugNameArrayCheck(drugArray, drugName){
     var check = true;
 
-    if(drugArray.length <= 1 || drugArray == undefined)
+    if(drugArray.length < 1 || drugArray == undefined)
         check = false;
     
     if(check) { 
