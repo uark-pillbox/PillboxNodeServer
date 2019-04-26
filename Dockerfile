@@ -1,7 +1,7 @@
 FROM node:10
 
-ARG CONTAINER_NUMBER
 ARG BRANCH
+ENV BRANCH_ENV ${BRANCH}
 
 WORKDIR /app
 
@@ -19,4 +19,4 @@ COPY --chown=node:node . .
 
 EXPOSE 9001
 
-CMD [ "node", "server.js", "9001", $BRANCH ]
+CMD node server.js 9001 ${BRANCH_ENV}
