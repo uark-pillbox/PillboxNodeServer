@@ -48,10 +48,10 @@ server.use(cors());
 server.use(jwt());
 
 //Users Routes
-server.use('/api'+ branch + '/users', require('./users/user.controller'));
+server.use('/users', require('./users/user.controller'));
 
 //Drug Routes
-server.use('/api'+ branch + '/drugs', require('./drugs/drug.controller'));
+server.use('/drugs', require('./drugs/drug.controller'));
 
 //Register route
 
