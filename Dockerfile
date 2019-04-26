@@ -19,4 +19,4 @@ COPY --chown=node:node . .
 
 EXPOSE 9001
 
-CMD [ "node", "server.js", "9001", CONTAINER_NUMBER, BRANCH ]
+CMD [ "node", "server.js", "9001", $BRANCH ]
