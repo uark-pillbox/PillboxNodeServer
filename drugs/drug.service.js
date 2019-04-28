@@ -126,11 +126,14 @@ async function drugInteractions(id){
         throw "No interactions were found from the listed drugs.";
 
     var interactions = [];
+    id = 0;
     interactionPayload.fullInteractionTypeGroup[0].fullInteractionType.map((value, index, array) => {
         interaction = new interactionModel.Interaction();
+        interaction.Id = id;
         interaction.DrugName1 = value.minConcept[0].name;
         interaction.DrugName2 = value.minConcept[1].name;
 
+        id += 1;
         interaction.Description = value.interactionPair[0].description;
         interactions.push(interaction);
     });
