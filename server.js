@@ -9,23 +9,6 @@ var mongoose = require('mongoose');
 var cors = require('cors');
 var jwt = require('./_helpers/jwt');
 var errorHandler = require('_helpers/error-handling')
-var log4js = require('log4js');
-var fs = require('fs')
-
-if (fs.existsSync('/log/')) {
-    var trueLog = console.log;
-    console.log = function(msg) {
-        fs.appendFile("/log/pillbox-"+ process.argv[3] +".log", msg, function(err) {
-            if(err) {
-                return trueLog(err);
-            }
-        });
-        trueLog(msg); //uncomment if you want logs
-    }
-} else 
-{
-    console.log("/log is not found, printing to console instead")
-}
 
 
 

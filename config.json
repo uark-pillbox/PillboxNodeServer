@@ -1,4 +1,4 @@
 {
-    "connectionString": "mongodb://pillboxuser:pillboxpassword@pillbodruggins:27017/PillboxDB",
+    "connectionString": "mongodb://localhost/pillboxUsers",
     "secret": "pillbox app arbitrary authentication string for json web token authentication"
 }
