@@ -120,7 +120,7 @@ async function drugInteractions(id){
 
     interactionPayload = await drugRoute.getInteractionObject(drugList);
 
-    console.log(interactionPayload.fullInteractionTypeGroup[0].fullInteractionType);
+    //console.log(interactionPayload.fullInteractionTypeGroup[0].fullInteractionType);
 
     if(interactionPayload.fullInteractionTypeGroup == undefined || interactionPayload.fullInteractionTypeGroup.length < 1)
         throw "No interactions were found from the listed drugs.";

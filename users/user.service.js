@@ -61,7 +61,7 @@ async function update(id, userParam) {
 
     // hash password if it was entered
     if (userParam.password) {
-        userParam.hash = bcrypt.hashSync(userParam.password, 10);
+        userParam.password = bcrypt.hashSync(userParam.password, 10);
     }
 
     // copy userParam properties to user
